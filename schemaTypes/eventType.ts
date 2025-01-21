@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity';
 import { CalendarIcon } from '@sanity/icons';
+import { DoorsOpenInput } from './components/DoorsOpenInput';
 
 export const eventType = defineType({
   name: 'event',
@@ -14,31 +15,39 @@ export const eventType = defineType({
     defineField({
       name: 'name',
       type: 'string',
+      group: 'editorial',
     }),
     defineField({
       name: 'slug',
       type: 'slug',
       options: { source: 'name' },
       validation: (rule) => rule.required().error(`Required to generate a page on the website`),
-      hidden: ({document}) => !document?.name,
+      hidden: ({ document }) => !document?.name,
+      group: 'editorial',
     }),
     defineField({
       name: 'eventType',
       type: 'string',
       options: {
-      list: ['in-person', 'virtual'],
-      layout: 'radio',
-    },
+        list: ['in-person', 'virtual'],
+        layout: 'radio',
+      },
+      group: 'editorial',
     }),
     defineField({
       name: 'date',
       type: 'datetime',
+      group: 'details',
     }),
     defineField({
       name: 'doorsOpen',
       description: 'Number of minutes before the start time for admission',
       type: 'number',
       initialValue: 60,
+      group: 'details',
+      components: {
+        input: DoorsOpenInput
+      }
     }),
     defineField({
       name: 'venue',
@@ -52,24 +61,29 @@ export const eventType = defineType({
           }
           return true
         }),
+      group: 'details',
     }),
     defineField({
       name: 'headline',
       type: 'reference',
-      to: [{type: 'artist'}],
+      to: [{ type: 'artist' }],
+      group: 'details',
     }),
     defineField({
       name: 'image',
       type: 'image',
+      group: 'details',
     }),
     defineField({
       name: 'details',
       type: 'array',
-      of: [{type: 'block'}],
+      of: [{ type: 'block' }],
+      group: 'details',
     }),
     defineField({
       name: 'tickets',
       type: 'url',
+      group: 'details',
     }),
   ],
 // Update the preview key in the schema
